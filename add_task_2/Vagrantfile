@@ -1,0 +1,44 @@
+TOMCAT_COUNT = 4
+
+subnet = "192.168.50."
+server_cpus = 1
+server_memory = 256
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "centos/7"
+
+# Config for webservers
+    (1..TOMCAT_COUNT).each do |i|
+        config.vm.define "webserver#{i}" do |node|
+            node.vm.provider :virtualbox do |vb_config|
+                vb_config.name = "Web Server #{i}"
+                vb_config.memory = server_memory
+                vb_config.cpus = server_cpus
+            end
+            node.vm.provision :file, source: "webapps/" , destination: "/home/vagrant/webapps"
+            node.vm.hostname = "webserver#{i}"
+            node.vm.network "private_network", ip: subnet+"1#{i}"
+            node.vm.provision :shell, path: "scripts/webserver.sh"
+        end
+    end
+
+  # Config for LoadBalancer
+    config.vm.define :loadbalancer do |lb_config|
+        lb_config.vm.provider :virtualbox do |vb_config|
+            vb_config.name = "Apache httpd LoadBalancer"
+            vb_config.memory = server_memory
+            vb_config.cpus = server_cpus
+        end
+        lb_config.vm.provision :file, source: "loadbalancer/" , destination: "/home/vagrant/lb"
+        lb_config.vm.provision "shell" do |s|
+            s.path = "scripts/generate_workers.sh"
+            s.args   = "#{TOMCAT_COUNT} #{subnet}"
+        end
+
+        lb_config.vm.hostname = "lb"
+        # lb_config.vm.network :forwarded_port, guest: 80, host: 8080
+        lb_config.vm.network "private_network", ip: subnet+"2"
+        lb_config.vm.provision :shell, path: "scripts/loadbalancer_mod_jk.sh"
+
+    end
+end
