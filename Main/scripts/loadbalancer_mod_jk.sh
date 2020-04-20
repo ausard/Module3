@@ -6,7 +6,7 @@ sudo systemctl start httpd
 sudo systemctl enable httpd
 
 #install mod_jk.so
-wget https://mirror.datacenter.by/pub/apache.org/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.48-src.tar.gz
+wget https://downloads.apache.org/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.48-src.tar.gz
 tar xf tomcat-connectors*.tar.gz
 cd tomcat-connectors-1.2.48-src/native/
 ./configure --with-apxs=/usr/bin/apxs
