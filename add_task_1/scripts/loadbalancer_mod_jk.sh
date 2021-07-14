@@ -29,7 +29,7 @@ mkdir -p /www/module3
 cd /home/vagrant
 sudo cp lb/http-jk.conf /etc/httpd/conf.modules.d/
 sudo cp lb/vhost_jk.conf /etc/httpd/conf.modules.d/
-sudo cp lb/workers.properties /etc/httpd/conf/
+sudo cp workers.properties /etc/httpd/conf/
 
 sudo systemctl start httpd
 sudo systemctl restart httpd

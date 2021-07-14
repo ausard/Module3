@@ -6,7 +6,7 @@ sudo yum install java-1.8.0-openjdk-devel wget -y
 sudo useradd -m -U -d /usr/share/tomcat/ -s /bin/false tomcat
 
 # Download Tomcat
-sudo wget https://downloads.apache.org/tomcat/tomcat-9/v9.0.34/bin/apache-tomcat-9.0.34.tar.gz
+sudo wget https://downloads.apache.org/tomcat/tomcat-9/v9.0.50/bin/apache-tomcat-9.0.50.tar.gz
 tar xvf apache-tomcat-9*tar.gz -C /usr/share/tomcat --strip-components=1
 
 
