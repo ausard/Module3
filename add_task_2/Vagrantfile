@@ -36,7 +36,6 @@ Vagrant.configure("2") do |config|
         end
 
         lb_config.vm.hostname = "lb"
-        # lb_config.vm.network :forwarded_port, guest: 80, host: 8080
         lb_config.vm.network "private_network", ip: subnet+"2"
         lb_config.vm.provision :shell, path: "scripts/loadbalancer_mod_jk.sh"
 
